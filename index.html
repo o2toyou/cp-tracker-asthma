@@ -1147,7 +1147,7 @@ canvas { display: block; max-width: 100%; }
       <div class="card-title">SAFETY　安全に関する注意事項</div>
       <div style="font-size:13.5px;color:var(--navy);line-height:2;">
         <b style="color:var(--red);">以下に該当する方は Level 3まで で進めてください：</b><br>
-        高血圧・心疾患・不安症・パニック症・重篤な持病・妊娠初期（全エクササイズ不可）・妊娠中期〜（リラクゼーション呼吸のみ。ブリーズライト・息止め・鼻づまり解消エクササイズ・口テープはNG）
+        高血圧・心疾患・不安症・パニック症・重篤な持病・60歳以上・妊娠初期（全エクササイズ不可）・妊娠中期（ブリーズライトと鼻呼吸は可。長い息止め・マキシマムポーズはNG）
       </div>
       <div style="margin-top:12px;padding:12px 14px;background:var(--lred);border-radius:4px;font-size:13px;color:var(--navy);line-height:1.9;">
         症状が5分以上続く場合は吸入器を使用してください。重篤な発作の場合はすぐに救急薬を使用し、改善しない場合は速やかに医療機関を受診してください。
@@ -1364,7 +1364,7 @@ function renderProgramCard(records) {
   } else if (hasPreg) {
     noticeHTML = `
       <div style="background:var(--lgold);border:1px solid var(--gold);border-left:4px solid var(--gold);border-radius:4px;padding:14px 16px;font-size:13.5px;color:var(--navy);line-height:1.85;margin-bottom:16px;">
-        ⚠ <b>妊娠中のため、リラクゼーション呼吸のみ行えます。</b>ブリーズライト・息止めを伴うエクササイズ・鼻づまり解消エクササイズ・口テープはNGです。必ず担当医にご確認ください。
+        ⚠ <b>妊娠中期のため、ブリーズライトと鼻呼吸は行えます。</b>長い息止め・マキシマムポーズ・口テープは避けてください。必ず担当医にご確認ください。
       </div>`;
   } else if (hasContra && lv === 3) {
     noticeHTML = `
@@ -2040,7 +2040,7 @@ function obNextContra() {
 
   } else if (checked.includes('preg')) {
     resEl.className = 'ob-contra-result show warn';
-    resEl.innerHTML = '⚠ <b>妊娠中（中期〜）</b>：リラクゼーション呼吸のみ行えます。ブリーズライト・息止めを伴うエクササイズ・鼻づまり解消エクササイズ・口テープはすべてNGです。必ず担当医にご確認ください。';
+    resEl.innerHTML = '⚠ <b>妊娠中期（第2三半期）</b>：ブリーズライトと鼻呼吸は可。長い息止め・マキシマムポーズ・口テープは避けてください。必ず担当医にご確認ください。';
     obProfile.hasContra = true;
   } else {
     resEl.className = 'ob-contra-result show ok';
@@ -2084,7 +2084,7 @@ function renderObSummary() {
     : obProfile.hasContra
       ? '禁忌あり（Level 3 で進める）'
       : obProfile.contraindications.includes('preg')
-        ? '妊娠中（中期〜）— リラクゼーション呼吸のみ'
+        ? '妊娠中期〜 — ブリーズライト可・長い息止めNG'
         : '禁忌なし（全Level対応）';
 
   const condMap = {
