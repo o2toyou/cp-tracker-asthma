@@ -1017,6 +1017,83 @@ canvas { display: block; max-width: 100%; }
       <div id="timerSteps" style="margin-top:16px;"></div>
     </div>
 
+    <!-- 誘導音声 -->
+    <div class="card">
+      <div class="card-title">GUIDED AUDIO　誘導音声</div>
+
+      <div style="font-size:13px;color:var(--gray);margin-bottom:14px;line-height:1.8;">
+        エクササイズ中・就寝前・お昼休みにご利用ください。タップで音声プレーヤーが開きます。
+      </div>
+
+      <!-- 就寝前 -->
+      <div style="font-size:12px;font-weight:700;color:var(--teal);letter-spacing:0.1em;margin-bottom:8px;">🌙 就寝前のリラクゼーション</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+
+        <div id="audio-relax-bl" style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+          <div onclick="toggleAudio('audio-relax-bl')" style="display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;background:var(--lteal);">
+            <span style="font-size:20px;">🌬️</span>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:700;color:var(--navy);">リラクゼーションとブリーズライト</div>
+              <div style="font-size:12px;color:var(--gray);margin-top:2px;">就寝前のブリーズライト誘導</div>
+            </div>
+            <span class="audio-arrow" style="color:var(--teal);font-size:18px;transition:transform 0.2s;">▶</span>
+          </div>
+          <div class="audio-player-wrap" style="display:none;">
+            <iframe src="https://utage-system.com/audio/w2nsA9c9dNmD" style="width:100%;height:80px;border:none;" allow="autoplay" loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div id="audio-sleep-piano" style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+          <div onclick="toggleAudio('audio-sleep-piano')" style="display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;background:var(--lteal);">
+            <span style="font-size:20px;">🎹</span>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:700;color:var(--navy);">スリープイージー（ピアノ）</div>
+              <div style="font-size:12px;color:var(--gray);margin-top:2px;">就寝前の誘導音声・ピアノBGM</div>
+            </div>
+            <span class="audio-arrow" style="color:var(--teal);font-size:18px;transition:transform 0.2s;">▶</span>
+          </div>
+          <div class="audio-player-wrap" style="display:none;">
+            <iframe src="https://utage-system.com/audio/qrJIyJvrj6Oo" style="width:100%;height:80px;border:none;" allow="autoplay" loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div id="audio-sleep-green" style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+          <div onclick="toggleAudio('audio-sleep-green')" style="display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;background:var(--lteal);">
+            <span style="font-size:20px;">🌿</span>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:700;color:var(--navy);">スリープイージー（グリーン）</div>
+              <div style="font-size:12px;color:var(--gray);margin-top:2px;">就寝前の誘導音声・自然音BGM</div>
+            </div>
+            <span class="audio-arrow" style="color:var(--teal);font-size:18px;transition:transform 0.2s;">▶</span>
+          </div>
+          <div class="audio-player-wrap" style="display:none;">
+            <iframe src="https://utage-system.com/audio/qkrhNCkZQeVz" style="width:100%;height:80px;border:none;" allow="autoplay" loading="lazy"></iframe>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- お昼 -->
+      <div style="font-size:12px;font-weight:700;color:var(--teal);letter-spacing:0.1em;margin-bottom:8px;">☀️ お昼のリラクゼーション</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+
+        <div id="audio-breathe-light" style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+          <div onclick="toggleAudio('audio-breathe-light')" style="display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;background:#f0f9f9;">
+            <span style="font-size:20px;">😌</span>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:700;color:var(--navy);">リラクゼーションとブリーズライト</div>
+              <div style="font-size:12px;color:var(--gray);margin-top:2px;">日中のブリーズライト・気分転換に</div>
+            </div>
+            <span class="audio-arrow" style="color:var(--teal);font-size:18px;transition:transform 0.2s;">▶</span>
+          </div>
+          <div class="audio-player-wrap" style="display:none;">
+            <iframe src="https://utage-system.com/audio/w2nsA9c9dNmD" style="width:100%;height:80px;border:none;" allow="autoplay" loading="lazy"></iframe>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- ===== TAB: 記録 ===== -->
@@ -1868,6 +1945,16 @@ function timerShowAuto() {
   const nextBtn  = document.getElementById('timerNextBtn');
   startBtn.style.display = 'block';
   if (nextBtn) nextBtn.style.display = 'none';
+}
+
+function toggleAudio(id) {
+  const card = document.getElementById(id);
+  const player = card.querySelector('.audio-player-wrap');
+  const arrow  = card.querySelector('.audio-arrow');
+  const isOpen = player.style.display !== 'none';
+  player.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform  = isOpen ? '' : 'rotate(90deg)';
+  arrow.textContent      = isOpen ? '▶' : '▼';
 }
 
 function jumpToTimer(key) {
