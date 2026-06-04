@@ -829,13 +829,24 @@ canvas { display: block; max-width: 100%; }
         <div class="tcp-unit">秒</div>
         <div class="tcp-date" id="todayCpDate"></div>
       </div>
+      <!-- CPタイマー -->
+      <div id="cpTimerArea" style="margin-bottom:14px;">
+        <div style="text-align:center;padding:18px 0 8px;">
+          <div style="font-size:56px;font-weight:700;color:var(--navy);line-height:1;font-variant-numeric:tabular-nums;" id="cpTimerDisplay">0.0</div>
+          <div style="font-size:12px;color:var(--gray);margin-top:4px;">秒</div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:8px;">
+          <button id="cpTimerBtn" onclick="cpTimerToggle()" style="flex:1;background:var(--teal);color:#fff;border:none;border-radius:6px;padding:12px 0;font-size:15px;font-weight:700;cursor:pointer;">▶ 鼻をつまむ</button>
+          <button onclick="cpTimerReset()" style="background:none;border:1px solid var(--border);color:var(--gray);border-radius:6px;padding:12px 16px;font-size:13px;cursor:pointer;">リセット</button>
+        </div>
+        <div style="font-size:12px;color:var(--gray);text-align:center;line-height:1.8;">
+          普通に吸って吐いた後▶を押して鼻をつまむ。「息を吸いたいかも」の最初の感覚で再度押して離す。
+        </div>
+      </div>
       <div class="cp-input-row">
         <input type="number" class="cp-input" id="cpInput" placeholder="0" min="0" max="120">
         <span class="cp-unit">秒</span>
         <button class="btn-record" onclick="recordCP()">記録する</button>
-      </div>
-      <div style="font-size:12px;color:var(--gray);line-height:1.8;">
-        普通に吸って吐いた後、鼻をつまんで「息を吸いたいかも」の最初の感覚で指を離す。楽に息を止めていられる秒数をここに入力してください。
       </div>
     </div>
 
@@ -1931,6 +1942,52 @@ function timerShowAuto() {
   const nextBtn  = document.getElementById('timerNextBtn');
   startBtn.style.display = 'block';
   if (nextBtn) nextBtn.style.display = 'none';
+}
+
+// ============================================================
+// CPタイマー
+// ============================================================
+var cpTimer = { running: false, start: 0, elapsed: 0, interval: null };
+
+function cpTimerToggle() {
+  var btn = document.getElementById('cpTimerBtn');
+  if (!cpTimer.running) {
+    // スタート
+    cpTimer.start = Date.now() - cpTimer.elapsed;
+    cpTimer.running = true;
+    btn.textContent = '✋ 離す';
+    btn.style.background = 'var(--red)';
+    cpTimer.interval = setInterval(function() {
+      cpTimer.elapsed = Date.now() - cpTimer.start;
+      var sec = (cpTimer.elapsed / 1000).toFixed(1);
+      document.getElementById('cpTimerDisplay').textContent = sec;
+    }, 100);
+  } else {
+    // ストップ → 秒数をCP入力欄に自動入力
+    clearInterval(cpTimer.interval);
+    cpTimer.running = false;
+    var sec = Math.round(cpTimer.elapsed / 1000);
+    document.getElementById('cpTimerDisplay').textContent = (cpTimer.elapsed / 1000).toFixed(1);
+    document.getElementById('cpInput').value = sec;
+    btn.textContent = '✅ ' + sec + '秒 → 記録する';
+    btn.style.background = 'var(--navy)';
+    btn.onclick = function() {
+      recordCP();
+      cpTimerReset();
+    };
+    if (navigator.vibrate) navigator.vibrate(100);
+  }
+}
+
+function cpTimerReset() {
+  clearInterval(cpTimer.interval);
+  cpTimer.running = false;
+  cpTimer.elapsed = 0;
+  document.getElementById('cpTimerDisplay').textContent = '0.0';
+  var btn = document.getElementById('cpTimerBtn');
+  btn.textContent = '▶ 鼻をつまむ';
+  btn.style.background = 'var(--teal)';
+  btn.onclick = cpTimerToggle;
 }
 
 function toggleAudio(id) {
