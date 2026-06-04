@@ -836,11 +836,11 @@ canvas { display: block; max-width: 100%; }
           <div style="font-size:12px;color:var(--gray);margin-top:4px;">秒</div>
         </div>
         <div style="display:flex;gap:10px;margin-bottom:8px;">
-          <button id="cpTimerBtn" onclick="cpTimerToggle()" style="flex:1;background:var(--teal);color:#fff;border:none;border-radius:6px;padding:12px 0;font-size:15px;font-weight:700;cursor:pointer;">▶ 鼻をつまむ</button>
+          <button id="cpTimerBtn" onclick="cpTimerToggle()" style="flex:1;background:var(--teal);color:#fff;border:none;border-radius:6px;padding:12px 0;font-size:15px;font-weight:700;cursor:pointer;">▶ スタート</button>
           <button onclick="cpTimerReset()" style="background:none;border:1px solid var(--border);color:var(--gray);border-radius:6px;padding:12px 16px;font-size:13px;cursor:pointer;">リセット</button>
         </div>
         <div style="font-size:12px;color:var(--gray);text-align:center;line-height:1.8;">
-          普通に吸って吐いた後▶を押して鼻をつまむ。「息を吸いたいかも」の最初の感覚で再度押して離す。
+          普通に吸って吐いた後、▶ スタートを押して鼻をつまんで息を止める。一番最初に「息を吸いたい」と思った瞬間に ✋ ストップを押して呼吸を再開する。息止め前後の呼吸はまったく同じ楽な呼吸であること。
         </div>
       </div>
       <div class="cp-input-row">
@@ -1955,7 +1955,7 @@ function cpTimerToggle() {
     // スタート
     cpTimer.start = Date.now() - cpTimer.elapsed;
     cpTimer.running = true;
-    btn.textContent = '✋ 離す';
+    btn.textContent = '✋ ストップ';
     btn.style.background = 'var(--red)';
     cpTimer.interval = setInterval(function() {
       cpTimer.elapsed = Date.now() - cpTimer.start;
@@ -1985,7 +1985,7 @@ function cpTimerReset() {
   cpTimer.elapsed = 0;
   document.getElementById('cpTimerDisplay').textContent = '0.0';
   var btn = document.getElementById('cpTimerBtn');
-  btn.textContent = '▶ 鼻をつまむ';
+  btn.textContent = '▶ スタート';
   btn.style.background = 'var(--teal)';
   btn.onclick = cpTimerToggle;
 }
